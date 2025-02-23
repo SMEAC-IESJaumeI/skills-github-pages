@@ -1,57 +1,222 @@
-<header>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupo ZION</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: url('Dune.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
 
-<!--
-  <<< Author notes: Course header >>>
-  Include a 1280×640 image, course title in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Add your open source license, GitHub uses MIT license.
--->
+        h1, h2, h3, p {
+            margin: 0;
+        }
 
-# GitHub Pages
+        a {
+            text-decoration: none;
+            color: #333;
+        }
 
-_Create a site or blog from your GitHub repositories with GitHub Pages._
+        /* Background overlay for readability */
+        .overlay {
+            background: rgba(255, 255, 255, 0.8);
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
 
-</header>
+        /* Header */
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
 
-<!--
-  <<< Author notes: Finish >>>
-  Review what we learned, ask for feedback, provide next steps.
--->
+        header h1 {
+            font-size: 36px;
+        }
 
-## Finish
+        /* Navigation */
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
 
-_Congratulations friend, you've completed this course!_
+        nav a {
+            margin: 0 15px;
+            color: #fff;
+            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
 
-<img src=https://octodex.github.com/images/constructocat2.jpg alt=celebrate width=300 align=right>
+        nav a:hover {
+            background-color: #444;
+        }
 
-Your blog is now live and has been deployed!
+        /* Main Layout */
+        .container {
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
 
-Here's a recap of all the tasks you've accomplished in your repository:
+        .news-sidebar {
+            flex: 1;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
 
-- You enabled GitHub Pages.
-- You selected a theme using the config file.
-- You learned about proper directory format and file naming conventions in Jekyll.
-- You created your first blog post with Jekyll!
+        .news-sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
 
-### What's next?
+        .news-sidebar li {
+            margin-bottom: 10px;
+        }
 
-- Keep working on your GitHub Pages site... we love seeing what you come up with!
-- We'd love to hear what you thought of this course [in our discussion board](https://github.com/orgs/skills/discussions/categories/github-pages).
-- [Take another GitHub Skills course](https://github.com/skills).
-- [Read the GitHub Getting Started docs](https://docs.github.com/en/get-started).
-- To find projects to contribute to, check out [GitHub Explore](https://github.com/explore).
+        .content {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-<footer>
+        .section {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
 
-<!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
+        .video-container {
+            flex: 2;
+        }
 
----
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
 
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/github-pages) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
+        .text-box {
+            flex: 1;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
 
-&copy; 2023 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
 
-</footer>
+        footer p {
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .section {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        async function fetchNews() {
+            try {
+                const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=sostenibilidad&hl=es&gl=ES&ceid=ES:es');
+                const data = await response.json();
+                
+                if (data.items) {
+                    let newsList = '';
+                    data.items.slice(0, 5).forEach(item => {
+                        newsList += `<li><a href="${item.link}" target="_blank">${item.title}</a></li>`;
+                    });
+                    document.getElementById('news-feed').innerHTML = newsList;
+                } else {
+                    document.getElementById('news-feed').innerHTML = '<li>No se encontraron noticias.</li>';
+                }
+            } catch (error) {
+                console.error('Error al obtener noticias:', error);
+                document.getElementById('news-feed').innerHTML = '<li>Error al cargar noticias.</li>';
+            }
+        }
+        window.onload = fetchNews;
+    </script>
+</head>
+<body>
+
+    <!-- Capa para mejorar la legibilidad del contenido sobre la imagen -->
+    <div class="overlay"></div>
+
+    <header>
+        <h1>Grupo ZION</h1>
+        <p>Transformando el futuro con tecnología</p>
+    </header>
+
+    <nav>
+        <a href="#">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="galeria.html">Galería</a>
+        <a href="contactos.html">Contacto</a>
+    </nav>
+
+    <div class="container">
+        <aside class="news-sidebar">
+            <h2>Agenda 2030</h2>
+            <ul id="news-feed">
+                <li>Cargando noticias...</li>
+            </ul>
+        </aside>
+        
+        <div class="content">
+            <div class="section">
+                <div class="video-container">
+                    <video src="video1.mp4" autoplay muted loop></video>
+                </div>
+                <div class="text-box">
+                    <h2>Nuestra Visión</h2>
+                    <p>Innovación y tecnología para un futuro mejor.</p>
+                </div>
+            </div>
+    
+            <div class="section">
+                <div class="text-box">
+                    <h2>Nuestros Proyectos</h2>
+                    <p>Descubre cómo estamos transformando la industria.</p>
+                </div>
+                <div class="video-container">
+                    <video src="video2.mp4" autoplay muted loop></video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Grupo ZION. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
